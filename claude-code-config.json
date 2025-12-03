@@ -1,0 +1,10 @@
+{
+  "telemetry": {
+    "otel": {
+      "enabled": true,
+      "endpoint": "http://localhost:14318",
+      "protocol": "http",
+      "headers": {}
+    }
+  }
+}

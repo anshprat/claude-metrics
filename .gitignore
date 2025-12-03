@@ -1,0 +1,18 @@
+# Docker volumes and data
+prometheus-data/
+grafana-data/
+
+# Logs
+*.log
+
+# Environment files (if any are added later)
+.env
+.env.local
+
+# Grafana runtime data
+grafana/provisioning/**/*.db
+
+# Terraform plan files (if any)
+*.tfplan
+*.tfstate
+*.tfstate.backup
