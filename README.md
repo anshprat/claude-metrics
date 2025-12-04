@@ -21,7 +21,7 @@ Claude Code → OpenTelemetry Collector → Prometheus → Grafana Dashboard
 Run the automated setup script that checks prerequisites and starts everything:
 
 ```bash
-./setup.sh
+./init.sh
 ```
 
 This will:
@@ -45,19 +45,20 @@ This will:
 
 ### 2. Configure Claude Code
 
-**IMPORTANT:** Claude Code requires both a config file AND environment variables to properly export telemetry.
+**IMPORTANT:** Claude Code requires environment variables to properly export telemetry.
 
-#### Option A: Using the start script (Recommended)
+#### Option A: Source the telemetry script (Recommended)
 
 ```bash
-./start-claude-with-telemetry.sh
+source telemetry.sh
+claude
 ```
 
-This script sets all required environment variables and launches Claude Code.
+This script sets all required environment variables for your current shell session. Then start Claude Code normally.
 
-#### Option B: Manual configuration
+#### Option B: Add to shell profile for persistence
 
-You must set these environment variables:
+Add these variables to your `~/.bashrc`, `~/.zshrc`, or equivalent:
 
 ```bash
 export CLAUDE_CODE_ENABLE_TELEMETRY=1
@@ -69,7 +70,12 @@ export OTEL_METRIC_EXPORT_INTERVAL=10000
 export OTEL_LOGS_EXPORT_INTERVAL=5000
 ```
 
-**Note:** Environment variables take precedence over the config file. Without `OTEL_METRICS_EXPORTER=otlp`, metrics will not be sent even if the config file is present.
+Then reload your shell:
+```bash
+source ~/.bashrc  # or ~/.zshrc
+```
+
+**Note:** For gRPC protocol instead of HTTP, use `source telemetry-grpc.sh` (Option A) or see the telemetry-grpc.sh file for the appropriate environment variables (Option B).
 
 ### 3. View the Dashboard
 
@@ -89,12 +95,15 @@ All operations are managed through shell scripts:
 
 | Script | Description |
 |--------|-------------|
-| `./setup.sh` | Complete automated setup (checks prerequisites and starts stack) |
+| `./init.sh` | Complete automated setup (checks prerequisites and starts stack) |
 | `./start.sh` | Start the entire metrics collection stack |
 | `./stop.sh` | Stop the stack (preserves data) |
 | `./view.sh` | Open Grafana dashboard in your browser |
 | `./status.sh` | Check health status of all services |
 | `./logs.sh` | View logs from all services |
+| `source telemetry.sh` | Set telemetry environment variables (HTTP) for current session |
+| `source telemetry-grpc.sh` | Set telemetry environment variables (gRPC) for current session |
+| `./metrics.sh` | Check metrics collection and verify data flow |
 
 ### Viewing Logs
 
@@ -219,7 +228,8 @@ This will verify:
 
 5. If still no metrics, restart your Claude Code session with the proper environment variables using:
    ```bash
-   ./start-claude-with-telemetry.sh
+   source telemetry.sh
+   claude
    ```
 
 ### Container Won't Start
