@@ -50,7 +50,17 @@ This will:
 #### Option A: Source the telemetry script (Recommended)
 
 ```bash
+# HTTP protocol (default)
 source telemetry.sh
+claude
+
+# OR with parameters
+source telemetry.sh --protocol=grpc                      # Use gRPC
+source telemetry.sh --host=custom-host.com               # Custom host
+source telemetry.sh --protocol=grpc --host=remote.com    # Both
+
+# OR use the gRPC convenience wrapper
+source telemetry-grpc.sh
 claude
 ```
 

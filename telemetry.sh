@@ -2,11 +2,14 @@
 
 # Start Claude Code with telemetry enabled and configured for local OTLP collector
 # Usage:
-#   ./telemetry.sh                                    # defaults to HTTP on localhost
-#   ./telemetry.sh --protocol=http
+#   source telemetry.sh                                    # defaults to HTTP on localhost
+#   source telemetry.sh --protocol=http
+#   source telemetry.sh --protocol=grpc
+#   source telemetry.sh --host=custom-host.com
+#   source telemetry.sh --protocol=grpc --host=custom-host.com
+#
+# Can also be executed directly (same parameters):
 #   ./telemetry.sh --protocol=grpc
-#   ./telemetry.sh --host=custom-host.com
-#   ./telemetry.sh --protocol=grpc --host=custom-host.com
 
 # Parse arguments
 PROTOCOL="http"
@@ -15,11 +18,9 @@ for arg in "$@"; do
   case $arg in
     --protocol=*)
       PROTOCOL="${arg#*=}"
-      shift
       ;;
     --host=*)
       HOST="${arg#*=}"
-      shift
       ;;
   esac
 done
@@ -27,7 +28,7 @@ done
 # Validate protocol
 if [[ "$PROTOCOL" != "http" && "$PROTOCOL" != "grpc" ]]; then
   echo "Error: Invalid protocol '$PROTOCOL'. Must be 'http' or 'grpc'."
-  exit 1
+  return 1 2>/dev/null || exit 1  # return if sourced, exit if executed
 fi
 
 # Set port and protocol based on argument

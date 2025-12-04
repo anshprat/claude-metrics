@@ -30,7 +30,14 @@ source ~/.bashrc  # or ~/.zshrc
 ./start.sh
 
 # Set telemetry environment variables for current session
-source telemetry.sh
+source telemetry.sh                    # HTTP protocol (default)
+# OR
+source telemetry.sh --protocol=grpc   # gRPC protocol
+# OR
+source telemetry.sh --protocol=http --host=custom-host.com  # Custom host
+
+# Alternatively, use the gRPC convenience wrapper
+source telemetry-grpc.sh
 
 # Start Claude Code
 claude
