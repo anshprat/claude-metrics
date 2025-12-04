@@ -794,12 +794,12 @@
       },
       "targets": [
         {
-          "expr": "sum by (model) (increase(claude_code_cost_usage_USD_total[1h]))",
+          "expr": "sum by (model) (increase(claude_code_cost_usage_USD_total[$__interval]))",
           "legendFormat": "{{model}}",
           "refId": "A"
         }
       ],
-      "title": "Cost Over Time by Model (Hourly)",
+      "title": "Cost Over Time by Model",
       "type": "timeseries"
     },
     {
@@ -869,27 +869,27 @@
       },
       "targets": [
         {
-          "expr": "increase(claude_code_token_usage_tokens_total{type=\"input\"}[1h])",
+          "expr": "increase(claude_code_token_usage_tokens_total{type=\"input\"}[$__interval])",
           "legendFormat": "Input Tokens",
           "refId": "A"
         },
         {
-          "expr": "increase(claude_code_token_usage_tokens_total{type=\"output\"}[1h])",
+          "expr": "increase(claude_code_token_usage_tokens_total{type=\"output\"}[$__interval])",
           "legendFormat": "Output Tokens",
           "refId": "B"
         },
         {
-          "expr": "increase(claude_code_token_usage_tokens_total{type=\"cacheRead\"}[1h])",
+          "expr": "increase(claude_code_token_usage_tokens_total{type=\"cacheRead\"}[$__interval])",
           "legendFormat": "Cache Read",
           "refId": "C"
         },
         {
-          "expr": "increase(claude_code_token_usage_tokens_total{type=\"cacheCreation\"}[1h])",
+          "expr": "increase(claude_code_token_usage_tokens_total{type=\"cacheCreation\"}[$__interval])",
           "legendFormat": "Cache Creation",
           "refId": "D"
         }
       ],
-      "title": "Token Usage Over Time (Hourly)",
+      "title": "Token Usage Over Time",
       "type": "timeseries"
     },
     {
@@ -1044,17 +1044,17 @@
       },
       "targets": [
         {
-          "expr": "increase(claude_code_lines_of_code_count_total{type=\"added\"}[1h])",
+          "expr": "increase(claude_code_lines_of_code_count_total{type=\"added\"}[$__interval])",
           "legendFormat": "Lines Added",
           "refId": "A"
         },
         {
-          "expr": "increase(claude_code_lines_of_code_count_total{type=\"removed\"}[1h])",
+          "expr": "increase(claude_code_lines_of_code_count_total{type=\"removed\"}[$__interval])",
           "legendFormat": "Lines Removed",
           "refId": "B"
         }
       ],
-      "title": "Code Changes Over Time (Hourly)",
+      "title": "Code Changes Over Time",
       "type": "timeseries"
     }
   ],
