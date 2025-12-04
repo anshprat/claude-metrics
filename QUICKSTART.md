@@ -2,6 +2,13 @@
 
 ## First Time Setup
 
+### Option 1: One Command (Easiest)
+```bash
+./run-all.sh
+# Then follow the instructions to source telemetry.sh and start claude
+```
+
+### Option 2: Step by Step
 ```bash
 # 1. Run automated setup
 ./init.sh

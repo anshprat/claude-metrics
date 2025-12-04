@@ -16,7 +16,23 @@ Claude Code → OpenTelemetry Collector → Prometheus → Grafana Dashboard
 
 ## Quick Start
 
-### Automated Setup (Recommended)
+### One-Command Setup (Easiest)
+
+Run everything with a single command:
+
+```bash
+./run-all.sh
+```
+
+This will:
+- Run complete automated setup (init.sh)
+- Start all services
+- Display telemetry configuration instructions
+- Show next steps
+
+Then follow the instructions to source telemetry.sh and start Claude Code.
+
+### Automated Setup (Alternative)
 
 Run the automated setup script that checks prerequisites and starts everything:
 
@@ -105,6 +121,7 @@ All operations are managed through shell scripts:
 
 | Script | Description |
 |--------|-------------|
+| `./run-all.sh` | **One-command setup** - runs init.sh, starts services, shows next steps |
 | `./init.sh` | Complete automated setup (checks prerequisites and starts stack) |
 | `./start.sh` | Start the entire metrics collection stack |
 | `./stop.sh` | Stop the stack (preserves data) |
@@ -114,6 +131,7 @@ All operations are managed through shell scripts:
 | `source telemetry.sh` | Set telemetry environment variables (HTTP) for current session |
 | `source telemetry-grpc.sh` | Set telemetry environment variables (gRPC) for current session |
 | `./metrics.sh` | Check metrics collection and verify data flow |
+| `./check-telemetry.sh` | Test telemetry configuration |
 
 ### Viewing Logs
 

@@ -8,6 +8,8 @@ cd "$SCRIPT_DIR"
 
 echo "Setting executable permissions on scripts..."
 
+chmod +x run-all.sh
+chmod +x init.sh
 chmod +x start.sh
 chmod +x stop.sh
 chmod +x view.sh
@@ -16,15 +18,19 @@ chmod +x status.sh
 chmod +x telemetry.sh
 chmod +x telemetry-grpc.sh
 chmod +x metrics.sh
+chmod +x check-telemetry.sh
 
 echo "✅ All scripts are now executable!"
 echo ""
 echo "Available scripts:"
-echo "  - ./start.sh          - Start the metrics collection stack"
-echo "  - ./stop.sh           - Stop the metrics collection stack"
-echo "  - ./view.sh           - Open Grafana dashboard in browser"
-echo "  - ./logs.sh           - View logs from services"
-echo "  - ./status.sh         - Check status of all services"
-echo "  - ./telemetry.sh      - Source to set telemetry environment variables"
-echo "  - ./telemetry-grpc.sh - Source to set telemetry variables (gRPC)"
-echo "  - ./metrics.sh        - Check metrics collection status"
+echo "  - ./run-all.sh         - Complete setup and start (one command!)"
+echo "  - ./init.sh            - Complete automated setup"
+echo "  - ./start.sh           - Start the metrics collection stack"
+echo "  - ./stop.sh            - Stop the metrics collection stack"
+echo "  - ./view.sh            - Open Grafana dashboard in browser"
+echo "  - ./logs.sh            - View logs from services"
+echo "  - ./status.sh          - Check status of all services"
+echo "  - ./telemetry.sh       - Source to set telemetry environment variables"
+echo "  - ./telemetry-grpc.sh  - Source to set telemetry variables (gRPC)"
+echo "  - ./metrics.sh         - Check metrics collection status"
+echo "  - ./check-telemetry.sh - Test telemetry configuration"
