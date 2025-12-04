@@ -1,14 +1,51 @@
 #!/bin/bash
 
 # Start Claude Code with telemetry enabled and configured for local OTLP collector
-# Usage: ./start-claude-with-telemetry.sh
+# Usage:
+#   source telemetry.sh                                    # defaults to HTTP on localhost
+#   source telemetry.sh --protocol=http
+#   source telemetry.sh --protocol=grpc
+#   source telemetry.sh --host=custom-host.com
+#   source telemetry.sh --protocol=grpc --host=custom-host.com
+#
+# Can also be executed directly (same parameters):
+#   ./telemetry.sh --protocol=grpc
+
+# Parse arguments
+PROTOCOL="http"
+HOST="localhost"
+for arg in "$@"; do
+  case $arg in
+    --protocol=*)
+      PROTOCOL="${arg#*=}"
+      ;;
+    --host=*)
+      HOST="${arg#*=}"
+      ;;
+  esac
+done
+
+# Validate protocol
+if [[ "$PROTOCOL" != "http" && "$PROTOCOL" != "grpc" ]]; then
+  echo "Error: Invalid protocol '$PROTOCOL'. Must be 'http' or 'grpc'."
+  return 1 2>/dev/null || exit 1  # return if sourced, exit if executed
+fi
+
+# Set port and protocol based on argument
+if [ "$PROTOCOL" = "grpc" ]; then
+  PORT=14317
+  PROTOCOL_FULL="grpc"
+else
+  PORT=14318
+  PROTOCOL_FULL="http/protobuf"
+fi
 
 echo "Starting Claude Code with telemetry enabled..."
 echo ""
 echo "Configuration:"
-echo "  - OTLP Endpoint: http://localhost:14318"
+echo "  - OTLP Endpoint: http://$HOST:$PORT"
 echo "  - Export Interval: 10 seconds (for quick feedback)"
-echo "  - Protocol: HTTP"
+echo "  - Protocol: $PROTOCOL_FULL"
 echo ""
 
 # Enable telemetry
@@ -19,8 +56,8 @@ export OTEL_METRICS_EXPORTER=otlp
 export OTEL_LOGS_EXPORTER=otlp
 
 # Configure OTLP endpoint
-export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:14318
-export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+export OTEL_EXPORTER_OTLP_ENDPOINT=http://$HOST:$PORT
+export OTEL_EXPORTER_OTLP_PROTOCOL=$PROTOCOL_FULL
 
 # Set faster export interval for testing (10 seconds instead of default 60)
 export OTEL_METRIC_EXPORT_INTERVAL=10000

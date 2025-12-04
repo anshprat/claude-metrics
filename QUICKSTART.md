@@ -2,24 +2,54 @@
 
 ## First Time Setup
 
+### Option 1: One Command (Easiest)
+```bash
+./run-all.sh
+# Then follow the instructions to source telemetry.sh and start claude
+```
+
+### Option 2: Step by Step
 ```bash
 # 1. Run automated setup
-./setup.sh
+./init.sh
 
-# 2. Configure Claude Code (add to ~/.bashrc or ~/.zshrc)
-export CLAUDE_CODE_CONFIG=~/code/anshprat/claude-billing/claude-code-config.json
+# 2. Configure telemetry environment variables
+# Option A: Add to ~/.bashrc or ~/.zshrc for persistence
+export CLAUDE_CODE_ENABLE_TELEMETRY=1
+export OTEL_METRICS_EXPORTER=otlp
+export OTEL_LOGS_EXPORTER=otlp
+export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:14318
+export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+export OTEL_METRIC_EXPORT_INTERVAL=10000
+export OTEL_LOGS_EXPORT_INTERVAL=5000
 
-# 3. Reload shell or run:
+# Then reload shell
 source ~/.bashrc  # or ~/.zshrc
+
+# Option B: Source telemetry.sh before each Claude session (no profile changes)
+# See "Daily Usage" section below
 ```
 
 ## Daily Usage
 
 ```bash
-# Start metrics collection
+# Start metrics collection stack
 ./start.sh
 
-# View dashboard
+# Set telemetry environment variables for current session
+source telemetry.sh                    # HTTP protocol (default)
+# OR
+source telemetry.sh --protocol=grpc   # gRPC protocol
+# OR
+source telemetry.sh --protocol=http --host=custom-host.com  # Custom host
+
+# Alternatively, use the gRPC convenience wrapper
+source telemetry-grpc.sh
+
+# Start Claude Code
+claude
+
+# View dashboard (in another terminal)
 ./view.sh
 
 # Check status
@@ -53,9 +83,10 @@ source ~/.bashrc  # or ~/.zshrc
 ## Common Issues
 
 ### No metrics showing up?
-1. Check Claude Code config: `echo $CLAUDE_CODE_CONFIG`
+1. Check telemetry variables are set: `env | grep -E '^OTEL_|^CLAUDE_CODE'`
 2. Verify services are running: `./status.sh`
-3. Check OTel logs: `./logs.sh otel`
+3. Check metrics collection: `./metrics.sh`
+4. Check OTel logs: `./logs.sh otel`
 
 ### Port already in use?
 ```bash
